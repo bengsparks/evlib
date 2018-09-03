@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(.)
 
-add_library(evlib evlib.hh main.cc include/emitter.hh include/event.hh include/listener.hh)
+add_library(evlib evlib.hh include/emitter.hh include/event.hh include/listener.hh)
 
 if(MSVC)
     # Force to always compile with W4
