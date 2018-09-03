@@ -12,20 +12,24 @@
 #include <include/listener.hh>
 
 
+#include <include/singleton.hh>
+
+
 namespace evlib {
 
     
 template <typename Trigger>
-class emitter {
+class emitter : public crtp::singleton<emitter<Trigger>> {
 public:
-    emitter() = default;
-    ~emitter() = default;
+    friend class crtp::singleton<emitter>;
 
-    emitter(const emitter&) = default;
+
+    emitter(const emitter&) = delete;
     emitter(emitter&&) noexcept = default;
 
-    auto operator=(const emitter&) -> emitter& = default;
+    auto operator=(const emitter&) -> emitter& = delete;
     auto operator=(emitter&&) noexcept -> emitter& = default;
+
 
     auto on(const event<Trigger>& event, const listener& listener) -> void {
         auto it = __m_listen.find(event);
@@ -56,6 +60,9 @@ public:
 
 
 private:
+    emitter() = default;
+    ~emitter() = default;
+
     std::map<
             event<Trigger>,
             std::set<listener>
