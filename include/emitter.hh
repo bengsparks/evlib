@@ -1,11 +1,11 @@
 #pragma once
 
 
-#include <cxxabi.h>
 #include <functional>
 #include <map>
 #include <memory>
 #include <set>
+#include <thread>
 
 
 #include <include/event.hh>
@@ -17,7 +17,7 @@
 
 namespace evlib {
 
-    
+
 template <typename Trigger>
 class emitter : public crtp::singleton<emitter<Trigger>> {
 public:
@@ -52,8 +52,10 @@ public:
 
     auto emit(const event<Trigger>& event) -> void {
         if (const auto it = __m_listen.find(event); it != __m_listen.end()) {
-            for (const auto& listener : it->second) {
-                std::invoke(listener);
+            std::vector<std::thread> pool(it->second.begin(), it->second.end());
+
+            for (auto&& th : pool) {
+                th.join();
             }
         }
     }
