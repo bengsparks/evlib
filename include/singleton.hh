@@ -3,7 +3,7 @@
 
 #include <type_traits>
 
-namespace crtp {
+namespace evlib::crtp {
 
 
 template <typename T>
