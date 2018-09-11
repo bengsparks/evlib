@@ -5,7 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(.)
 
-add_library(evlib evlib.hh include/emitter.hh include/event.hh include/listener.hh)
+add_library(evlib evlib.hh include/emitter.hh include/event.hh include/listener.hh include/singleton.hh)
+
 set_target_properties(evlib PROPERTIES LINKER_LANGUAGE CXX)
 
 if(MSVC)
